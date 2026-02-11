@@ -1,0 +1,36 @@
+{
+  "system_name": "tarot-slow",
+  "classification": "occult_symbolic_reflection",
+  "decision_authority": false,
+  "connected_to_strategy": false,
+  "connected_to_market_data": false,
+  "connected_to_pnl": false,
+
+  "core_statement": "This system provides symbolic interpretation for reflection only.",
+
+  "language_rules": {
+    "hard_block_keywords": [
+      "you will",
+      "must",
+      "inevitable",
+      "guaranteed",
+      "destined",
+      "correct decision",
+      "best choice"
+    ],
+    "soft_replace": {
+      "should": "may consider",
+      "need to": "might explore",
+      "better to": "you could reflect on"
+    }
+  },
+
+  "learning": {
+    "increase_certainty": false,
+    "increase_authority": false,
+    "expand_symbolism": true
+  },
+
+  "version": "v2.1",
+  "last_updated": "2026-02-11"
+}

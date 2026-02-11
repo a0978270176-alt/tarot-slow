@@ -1,0 +1,7 @@
+{
+  "can_import_strategy": false,
+  "can_access_market_data": false,
+  "can_emit_decision_signal": false,
+  "external_api_calls": false,
+  "data_layer": "local_only"
+}

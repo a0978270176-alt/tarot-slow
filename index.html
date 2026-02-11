@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>塔羅慢模組</title>
+
+<style>
+body {
+    margin: 0;
+    background: #111;
+    color: #eee;
+    font-family: "Noto Serif TC", serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.card {
+    width: 200px;
+    height: 320px;
+    background: #222;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.card.breathing {
+    animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 200px;
+    height: 320px;
+    border-radius: 12px;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    padding: 20px;
+    text-align: center;
+}
+
+.front {
+    background: #fafafa;
+    color: #111;
+    transform: rotateY(180deg);
+}
+
+.back {
+    background: #333;
+}
+
+#interpretation {
+    margin-top: 30px;
+    max-width: 500px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1.5s;
+    line-height: 1.8em;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #444;
+    border: none;
+    color: #eee;
+    cursor: pointer;
+    border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+    <div class="card-face back">塔羅</div>
+    <div class="card-face front" id="cardFront"></div>
+</div>
+
+<div id="interpretation"></div>
+
+<script>
+const card = document.getElementById("card");
+const interpretation = document.getElementById("interpretation");
+const cardFront = document.getElementById("cardFront");
+
+const tarotDeck = [
+{
+name: "愚者",
+text: `有某種開始正在發生。
+它還沒有明確方向，
+但已經離開原本的位置。
+
+不確定感依然存在，
+只是你對它的態度，
+似乎變得不同了。`
+},
+{
+name: "隱者",
+text: `有些距離並不是退縮，
+而是一種刻意保留。
+
+當外界聲音變得密集，
+內在的訊號反而更清晰。
+
+這不是孤立，
+而是一種自我整理。`
+},
+{
+name: "力量",
+text: `有一種張力正在形成，
+它不靠壓制維持平衡。
+
+溫和與堅定同時存在，
+不是對抗，
+而是持續。`
+}
+];
+
+let drawnCard = null;
+
+function drawCard() {
+if (card.classList.contains("flipped")) return;
+
+card.classList.remove("breathing");
+
+drawnCard = tarotDeck[Math.floor(Math.random() * tarotDeck.length)];
+
+cardFront.innerText = drawnCard.name;
+card.classList.add("flipped");
+
+setTimeout(() => {
+interpretation.innerText = drawnCard.text;
+interpretation.style.opacity = "1";
+}, 2000);
+
+setTimeout(() => {
+const resetBtn = document.createElement("button");
+resetBtn.innerText = "重新洗牌";
+resetBtn.onclick = () => location.reload();
+document.body.appendChild(resetBtn);
+}, 10000);
+}
+
+card.addEventListener("click", drawCard);
+
+function enableCard() {
+card.classList.add("breathing");
+}
+
+function runIntro() {
+const lines = [
+"此刻，不需要急著知道答案。",
+"有些問題，正在形成。",
+"你可以先停在這裡。"
+];
+
+const intro = document.createElement("div");
+intro.style.position = "absolute";
+intro.style.top = "30%";
+intro.style.width = "100%";
+intro.style.textAlign = "center";
+intro.style.fontSize = "20px";
+intro.style.opacity = "0";
+intro.style.transition = "opacity 1.2s";
+document.body.appendChild(intro);
+
+let i = 0;
+
+function showLine() {
+if (i < lines.length) {
+intro.innerText = lines[i];
+intro.style.opacity = "1";
+
+setTimeout(() => {
+intro.style.opacity = "0";
+i++;
+setTimeout(showLine, 1200);
+}, 2000);
+} else {
+document.body.removeChild(intro);
+enableCard();
+}
+}
+
+setTimeout(showLine, 1000);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+let firstVisit = !localStorage.getItem("visited_tarot");
+
+if (firstVisit) {
+runIntro();
+localStorage.setItem("visited_tarot", "true");
+} else {
+enableCard();
+}
+});
+</script>
+
+</body>
+</html>

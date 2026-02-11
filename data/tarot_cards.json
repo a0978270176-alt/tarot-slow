@@ -1,0 +1,16 @@
+[
+  {
+    "id": "THE_FOOL",
+    "name": "The Fool",
+    "symbolism": "beginnings, openness, unstructured potential",
+    "themes": ["risk", "innocence", "leap of faith"],
+    "reflection_prompt": "Where in your life are you standing at the edge of something new?"
+  },
+  {
+    "id": "THE_HERMIT",
+    "name": "The Hermit",
+    "symbolism": "introspection, solitude, inner light",
+    "themes": ["withdrawal", "searching", "self-guidance"],
+    "reflection_prompt": "What might become clearer if you stepped back for a moment?"
+  }
+]
